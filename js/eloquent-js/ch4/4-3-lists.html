@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eloquent JS: Ch 4: Exercise 3: Lists</title>
+</head>
+<body>
+<script>
+
+function arrayToList( anArray ) {
+	var newList = {};
+	for( var i = anArray.length - 1; i >= 0; i-- ) {
+		newList = { value: anArray[i], rest: newList };
+	}
+	return newList;
+}
+
+var myArray = [10, 20];
+console.log( arrayToList( myArray ) );
+
+
+function prepend( anElement, aList ) {
+	return { value: anElement, rest: aList };
+}
+
+console.log( prepend( 10, prepend( 20, null ) ) );
+
+
+function nth( aList, aPosition ) {
+	if( ! aList ) { return undefined; }
+	else if( aPosition === 0 ) return aList.value;
+	else { return nth( aList.rest, aPosition-1 ); }
+}
+
+console.log(nth(arrayToList([10, 20, 30]), 1));
+
+</script>
+See Dev Tools console
+</body>
+</html>

@@ -1,0 +1,1 @@
+This repository holds exercises I've worked through from books I've read and small experiments. Much of it is over topics I already know but want to cement in my mind.

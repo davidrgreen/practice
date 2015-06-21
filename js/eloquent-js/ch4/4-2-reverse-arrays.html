@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eloquent JS: Ch 4: Exercise 2: Reversing an Array</title>
+</head>
+<body>
+<script>
+/* Accepts an array and returns a new array in reverse order */
+function reverseArray( toReverse ) {
+	var reversed = [];
+
+	for( var i = toReverse.length - 1; i >= 0; i -= 1 )  {
+		reversed.push( toReverse[i] );
+	}
+	return reversed;
+}
+
+var arrayValue = [1, 2, 3, 4, 5];
+console.log( reverseArray( arrayValue ) );
+
+/* Modify the array given as an argument in order to reverse its order */
+function reverseArrayInPlace( toReverse ) {
+	var aLength = toReverse.length;
+	var halfway = Math.floor( aLength/2 );
+	for( var i = 0; i <= halfway; i++ ) {
+		var holdVal = toReverse[aLength - i - 1];
+		toReverse[aLength - i - 1] = toReverse[i];
+		toReverse[i] = holdVal;
+	}
+}
+
+reverseArrayInPlace( arrayValue );
+console.log( arrayValue );
+</script>
+See Dev Tools console
+</body>
+</html>

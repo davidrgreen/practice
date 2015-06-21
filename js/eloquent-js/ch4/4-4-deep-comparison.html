@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eloquent JS: Ch 4: Exercise 4: Deep Comparison</title>
+</head>
+<body>
+<script>
+/*
+My first attempt
+ function deepEqual( valOne, valTwo ) {
+	console.log( 'Began deepEqual by comparing ' + valOne + ' to ' + valTwo );
+	if( ( typeof valOne  === 'object' && valOne !== null ) && ( typeof valTwo === 'object' && valTwo !== null ) ) {
+		for( var comparing in valOne ) {
+			//console.log( 'Comparing: ' + comparing + ' to ' + valTwo[comparing] );
+			deepEqual( comparing, valTwo[comparing] );
+		}
+	}
+	else if( valOne !== valTwo ) { return false; }
+	return true;
+}*/
+
+/*
+http://eloquentjavascript.net/code/#4.4
+function deepEqual( valOne, valTwo) {
+	// Return true if they match exactly
+	if( valOne === valTwo) return true;
+
+	if( valOne != null &&) {
+
+	}
+}*/
+
+
+var obj = {here: {is: "an"}, object: 2};
+//console.log(deepEqual(obj, obj));
+// → true
+console.log(deepEqual(obj, {here: 1, object: 2}));
+// → false
+//console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
+// → true
+</script>
+See Dev Tools console
+</body>
+</html>

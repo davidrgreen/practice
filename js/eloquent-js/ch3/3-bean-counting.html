@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eloquent JS: Ch 3: Exercise 3: Bean Counting</title>
+</head>
+<body>
+<script>
+	/* Count the number of times a character appears in a string */
+	function countChar( someString, charToMatch ) {
+		if( ! charToMatch || ! someString ) {
+			return "Please use the correct format:\n function countChar( someString, charToMatch );";
+		}
+		var charCount = 0;
+		var i;
+		var stringLength = someString.length;
+		for( i = 0; i < stringLength; i += 1 ) {
+			if ( someString.charAt(i) === charToMatch ) { charCount += 1; }
+		}
+		return charCount;
+	}
+	console.log( countChar( "David Green", "D" ) );
+</script>
+See Dev Tools console
+</body>
+</html>

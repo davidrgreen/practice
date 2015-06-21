@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eloquent JS: Ch 4: Exercise 1: The Sum of a Range</title>
+</head>
+<body>
+<script>
+/**
+ * Return an array containing all the numbers from start
+ * up to (and including) end
+ * @param  {int} start
+ * @param  {int} end
+ * @return {array}
+ */
+function range( start, end, step ) {
+	var rangeNumbers = [];
+	step = ! step ? 1 : step;
+	var i;
+
+	if( start < end) {
+		if( step <= 0 ) return "Step needs to be positive when start is less than end";
+		for( i = start; i <= end; i += step ) {
+			rangeNumbers.push(i);
+		}
+	}
+	// If start is greater than end
+	else {
+		if( step >= 0 ) { return "Step needs to be negative when end is less than start"; }
+		for( i = start; i >= end; i += step ) {
+			rangeNumbers.push(i);
+		}
+	}
+	return rangeNumbers;
+}
+
+console.log( range( 5, 2, 1 ) );
+
+/**
+ * Return the sum of an array of numbers
+ * @param  {array} arrayedNumbers - Contains an array of numbers
+ * @return {int}  The sum of the numbers in the array passed.
+ */
+function sum( arrayedNumbers ) {
+	var thesum = 0;
+	var aLength = arrayedNumbers.length;
+
+	for( var i = 0; i < arrayedNumbers[i]; i++ ) {
+		thesum += arrayedNumbers[i];
+	}
+
+	return thesum;
+}
+
+console.log( sum( range( 1, 10, 1 ) ) );
+</script>
+See Dev Tools console
+</body>
+</html>

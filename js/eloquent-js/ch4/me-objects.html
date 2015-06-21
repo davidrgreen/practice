@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eloquent JS: Ch 4: Objects (My Experiments)</title>
+</head>
+<body>
+<script>
+var player = {
+	hp: 100,
+	name: "David Green",
+	greet:
+		function() { console.log( "Hello! My name is " + this.name + " and my HP is at " + this.hp ); },
+	hurt: function(x) { this.hp -= x; },
+	"long property": "Yep. It worked."
+
+
+};
+player.hurt(10);
+player.greet();
+console.log( player["long property"] );
+</script>
+See Dev Tools console
+</body>
+</html>

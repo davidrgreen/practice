@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eloquent JS: Ch 3: Exercise 2: Recusion</title>
+</head>
+<body>
+<script>
+	function isEven( number ) {
+		if( number === 0 ) { return true; }
+		else if (number === 1 ) { return false; }
+		else {
+			return isEven( number - 2 );
+		}
+	}
+	console.log( isEven(11) );
+	console.log( isEven(10) );
+</script>
+</body>
+</html>
