@@ -64,7 +64,105 @@
 
 
 
+		function reduce( array, combine, start ) {
+			var current = start; /* what the starting value for the return value will be */
+			var alen = array.length;
 
+			for( var i = 0; i < alen; i++ ) {
+				/* Go through the array running the function passed as the combine
+				argument on each adjacent pair of array elements.
+				This could sum them, compare them to find the lowest, etc*/
+				current = combine( current, array[i]);
+			}
+			return current;
+		}
+
+		/* Note the function passed as combine needs to accept two arguments */
+		console.log( reduce( [1, 2, 3, 4], function( a, b ) {
+			return a + b;
+		}, 0 ) );
+
+		/* Find the smallest number */
+		var someArray = [10, 20, 5, 15, 99, 98, 3, 15, 9, 4];
+		console.log( reduce( someArray, function( a, b ) {
+			return a < b ? a : b;
+		}, someArray[0] ) );
+
+		/* Find the largest even number using the standard array method, reduce
+		- note it does not have to have a start value so long as the array has more than
+		one element */
+		console.log( someArray.reduce( function( a, b ) {
+			return a > b && a % 2 === 0 ? a : b;
+		}) );
+
+
+
+		console.log ( '-------------' );
+		console.log ( '-------------' );
+
+
+		/* Find the average of the values in an array */
+		function average( array ) {
+			function sum( a, b ) { return a + b; }
+			return array.reduce( sum ) / array.length;
+		}
+
+		function age( person ) { return person.died - person.born; }
+		function isMale( person ) { return person.sex === "m"; }
+		function isFemale( person ) { return person.sex === "f"; }
+
+		/* Filter the  the ancestry array to get only the males, then map their ages to a new array.
+		Then use the average function on the resulting array, which uses Array.reduce to get the
+		average of an array's values. */
+		console.log( average( ancestry.filter( isMale ).map( age ) ) );
+
+		/* Do the same thing, but filter for females*/
+		console.log( average( ancestry.filter( isFemale ).map( age ) ) );
+
+
+
+		console.log ( '-------------' );
+		console.log ( '-------------' );
+
+
+
+		/* Build an associative array where the index is the name of the person and the value is that peson's object */
+
+		 var byName = {};
+
+		 ancestry.forEach( function( person ) {
+		 	byName[ person.name ] = person;
+		 } );
+
+		 console.log( byName["Philibert Haverbeke"] );
+
+		 function reduceAncestors( person, f, defaultValue ) {
+		 	/* Create the function we'll be using recursively*/
+		 	function valueFor( person ) {
+		 		/* Using === null causes an error, though == null works. I went with ! person */
+		 		if( ! person ) {
+		 			return defaultValue;
+		 		}
+		 		else {
+		 			return f( person, valueFor( byName[person.mother] ), valueFor( byName[person.father] ) );
+		 		}
+		 	}
+
+		 	/* Call the valueFor function on person and start the recursion */
+	 		return valueFor( person );
+		 }
+
+		 /* sharedDNA will be passed as the f argument in reduceAncestors*/
+		 function sharedDNA( person, fromMother, fromFather ) {
+		 	if( person.name === "Pauwels van Haverbeke" ) {
+		 		return 1;
+		 	}
+		 	else {
+		 		return ( fromMother + fromFather) / 2;
+		 	}
+		 }
+
+		console.log( reduceAncestors( byName["Philibert Haverbeke"], sharedDNA, 0 ) / 4 );
 
 	</script>
 </head>
