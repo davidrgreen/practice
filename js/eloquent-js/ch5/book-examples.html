@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Chapter 5 Examples</title>
+	<script src="ancestry.js"></script>
+	<script>
+	/**
+	 * Playing around with examples used within the book. I'm making some adjustments to improve efficiency where I see possible as well as adding comments to explain and reinforce my understanding of what's happening.
+	 */
+		var ancestry = JSON.parse( ANCESTRY_FILE );
+		console.log( '# of items in ancestry: ' + ancestry.length );
+
+		/* Print out a new array that was filtered to only contain the people
+		with a father named Carel Haverbeke*/
+		console.table( ancestry.filter( function( person ) {
+			/* If father is Carel Haverbeke then return true*/
+			return person.father == "Carel Haverbeke";
+		} ) );
+
+		console.log ( '-------------' );
+		console.log ( '-------------' );
+
+
+
+		/* Map is a standard method for arrays, but I wanted to toy with recreating it*/
+		function map( array, transform ) {
+			var mapped = [];
+			var mlen = array.length;
+
+			/* We are looping through the array passed as an argument to map(),
+			running upon it the function passed as the transform argument, and
+			then pushing that result to the mapped array, which we'll return so the original
+			array will not be modified */
+			for( var i = 0; i < mlen; i++ ) {
+				mapped.push( transform( array[i]) );
+			}
+			return mapped;
+		}
+
+		/* Create an array by filtering the list of ancestors and getting only those greater than 90 years old*/
+		var overNinety = ancestry.filter( function( person ) {
+			return person.died - person.born > 90;
+		});
+
+		console.log( map( overNinety, function( person ) {
+			return person.name;
+		} ) );
+
+		/* Create an array of the people over 90's ages*/
+		console.log( map( overNinety, function( person ) {
+			return person.died - person.born;
+		} ) );
+
+		/* Now to show the ages using array's standard map method, but for the entire ancestry array */
+		console.log ( ancestry.map( function(person) {
+			return person.died - person.born;
+		} ) );
+
+
+
+		console.log ( '-------------' );
+		console.log ( '-------------' );
+
+
+
+
+
+	</script>
+</head>
+<body>
+See dev console
+</body>
+</html>
