@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eloquent JS: Ch 5: Exercise 2: Mother-Child Age Difference</title>
+	<script src="ancestry.js"></script>
+	<script>
+	/*
+	Using the example data set from this chapter, compute the average age difference between mothers and children (the age of the mother when the child is born). You can use the average function defined earlier in this chapter.
+
+	Note that not all the mothers mentioned in the data are themselves present in the array. The byName object, which makes it easy to find a person’s object from their name, might be useful here.
+
+	 */
+
+	var ancestry = JSON.parse( ANCESTRY_FILE );
+
+	/* Use {} instead of [] because I want an associative array / object */
+	var byName = {};
+
+	ancestry.map( function( person ) {
+		byName[ person.name ] = person;
+	} );
+
+	/* Get the average of an array's values*/
+	function average( array ) {
+		function sum( a, b ) { return a + b; }
+		return array.reduce( sum ) / array.length;
+	}
+
+	var ageDifferences = [];
+
+	var  childrenWithMothers = ancestry.filter( function( person ) {
+		return byName[ person.mother ];
+	} );
+
+	childrenWithMothers.forEach( function( person ) {
+		ageDifferences.push( person.born - byName[ person.mother ].born );
+	} );
+
+	console.log( average( ageDifferences ) );
+
+	/* I could condense that into the following, though I'm still torn as to whether higher order functions really help readability. */
+
+	var alternateAgeDifferences = ancestry.filter( function( person ) {
+		return byName[ person.mother ];
+	} ).map( function( person ) {
+		return person.born - byName[ person.mother ].born ;
+	} );
+
+	console.log( average( alternateAgeDifferences ) );
+
+
+	</script>
+</head>
+<body>
+	See dev console
+</body>
+</html>
