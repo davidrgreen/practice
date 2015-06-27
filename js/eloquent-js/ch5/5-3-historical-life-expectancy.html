@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eloquent JS: Ch 5: Exercise: Historical Life Expectancy</title>
+	<script src="ancestry.js"></script>
+	<script>
+	/*
+	Compute and output the average age of the people in the ancestry data set per century. A person is assigned to a century by taking their year of death, dividing it by 100, and rounding it up
+	For bonus points, write a function groupBy that abstracts the grouping operation. It should accept as arguments an array and a function that computes the group for an element in the array and returns an object that maps group names to arrays of group members.
+	 */
+	var ancestry = JSON.parse( ANCESTRY_FILE );
+
+	/* Get the average of an array's values*/
+	function average( array ) {
+		function sum( a, b ) { return a + b; }
+		return array.reduce( sum ) / array.length;
+	}
+
+	function groupBy( array, fn ) {
+		var grouped = {};
+		var toGroup;
+		array.map( function( arg ) {
+			toGroup = fn( arg );
+			if( ! grouped[toGroup] ) { grouped[toGroup] = []; }
+			grouped[fn( arg )].push( arg );
+		} );
+		return grouped;
+	}
+
+	function determineCentury( person ) {
+		return Math.ceil( person.died / 100 );
+	}
+
+	var groupedByCentury = groupBy( ancestry, determineCentury );
+
+	for( var century in groupedByCentury ) {
+		if ( groupedByCentury.hasOwnProperty( century ) ) {
+			var ages = groupedByCentury[century].map( function( person ) {
+				return person.died - person.born;
+			} );
+			console.log( century + ': ' + average( ages ) );
+		}
+	}
+
+	</script>
+</head>
+<body>
+	See dev console
+</body>
+</html>
