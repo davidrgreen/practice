@@ -43,6 +43,14 @@
 		}
 	}
 
+	/* Just further testing my abstracted groupBy function */
+	function determineGender( person ) {
+		return person.sex;
+	}
+
+	var groupedByGender = groupBy( ancestry, determineGender );
+	console.table( groupedByGender["m"] );
+
 	</script>
 </head>
 <body>
