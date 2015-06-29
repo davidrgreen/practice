@@ -97,9 +97,41 @@
 
 	console.log( drawTable( rows ) );
 
+	/*
+	* Now to pull in the mountains data
+	 */
+
+	function UnderlinedCell( inner ) {
+		this.inner = inner;
+	};
+
+	UnderlinedCell.prototype.minWidth = function() {
+		return this.inner.minWidth();
+	};
+
+	UnderlinedCell.prototype.minHeight = function() {
+		return this.inner.minHeight() + 1;
+	};
+
+	UnderlinedCell.prototype.draw = function( width, height ) {
+		return this.inner.draw( width, height -1 ).concat( [ repeat( "-", width ) ] );
+	};
 
 
+	function dataTable( data ) {
+		var keys = Object.keys( data[0] );
+		var headers = keys.map( function( name ) {
+			return new UnderlinedCell( new TextCell(name) );
+		} );
+		var body = data.map( function( row ) {
+			return keys.map( function( name ) {
+				return new TextCell( String( row[name] ) );
+			} );
+		} );
+		return [headers].concat( body );
+	}
 
+	console.log( '\n' + drawTable( dataTable( MOUNTAINS ) ) );
 
 	/*
 	Experiments based on the OOP concepts in chapter 6
