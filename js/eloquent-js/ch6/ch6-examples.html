@@ -103,7 +103,7 @@
 
 	function UnderlinedCell( inner ) {
 		this.inner = inner;
-	};
+	}
 
 	UnderlinedCell.prototype.minWidth = function() {
 		return this.inner.minWidth();
@@ -118,7 +118,10 @@
 	};
 
 
-	function dataTable( data ) {
+	/*
+	Comment out the original function in order to replace it later to support right align text
+
+	 function dataTable( data ) {
 		var keys = Object.keys( data[0] );
 		var headers = keys.map( function( name ) {
 			return new UnderlinedCell( new TextCell(name) );
@@ -131,11 +134,75 @@
 		return [headers].concat( body );
 	}
 
-	console.log( '\n' + drawTable( dataTable( MOUNTAINS ) ) );
+	console.log( '\n' + drawTable( dataTable( MOUNTAINS ) ) );*/
 
-	/*
-	Experiments based on the OOP concepts in chapter 6
-	 */
+	var pile = {
+	  elements: [ "eggshell", "orange peel", "worm" ],
+	  get height() {
+	    return this.elements.length;
+	  },
+	  set height(value) {
+	    console.log( "Ignoring attempt to set height to", value, ". Our height is already ", this.height );
+	  }
+	};
+
+	/* Uses the getter method for height(). If you did pile.height() it would have an error saying
+	pile.height is not a function. */
+	console.log( pile.height );
+
+	/* It's up to the setter function to actually set the property. It's not done automatically, or at all in this case.
+	Since the setter is part of the object then it's able to use `this` to access properties of the object */
+	pile.height = 100;
+
+
+	Object.defineProperty(TextCell.prototype, "heightProp", {
+	  get: function() { return this.text.length; }
+	});
+
+	var cell = new TextCell("no\nway");
+
+
+	/* RTextCell will inherit from TextCell so it has the properties and methods TextCell defined.
+	The new constructor called the old constructor in order to pass the new object as its `this` value */
+	function RTextCell( text ) {
+	  TextCell.call( this, text );
+	}
+
+	RTextCell.prototype = Object.create( TextCell.prototype );
+
+	/*  Override the draw property from TextCell */
+	RTextCell.prototype.draw = function( width, height ) {
+	  var result = [];
+	  for ( var i = 0; i < height; i++ ) {
+	    var line = this.text[i] || "";
+	    result.push( repeat( " ", width - line.length ) + line );
+	  }
+	  return result;
+	};
+
+	function dataTable(data) {
+	  var keys = Object.keys(data[0]);
+	  var headers = keys.map(function(name) {
+	    return new UnderlinedCell(new TextCell(name));
+	  });
+	  var body = data.map(function(row) {
+	    return keys.map(function(name) {
+	      var value = row[name];
+	      // This was changed:
+	      if (typeof value == "number")
+	        return new RTextCell(String(value));
+	      else
+	        return new TextCell(String(value));
+	    });
+	  });
+	  return [headers].concat(body);
+	}
+
+	console.log( '\n', drawTable(dataTable(MOUNTAINS)));
+	// → … beautifully aligned table
+
+
+
 	</script>
 </head>
 <body>
