@@ -11,7 +11,7 @@
 			echo '<p style="color: ' . $color . '">' . $str . '</p>';
 		}
 
-		class Living {
+		abstract class Living {
 			public $name;
 			public $hp;
 			public $maxhp;
@@ -34,10 +34,7 @@
 				}
 			}
 
-			protected function death() {
-				$this->hp = 0;
-				combatMessage( '-- ' . $this->name . ' has fallen unconscious. --', 'green' );
-			}
+			abstract protected function death();
 
 		}
 
@@ -47,6 +44,11 @@
 					return $this->name . ' mutters something in its sleep.';
 				}
 				return $this->name . ' roars, "' . $text . '"';
+			}
+
+			protected function death() {
+				$this->hp = 0;
+				combatMessage( '-- ' . $this->name . ' has fallen unconscious. --', 'green' );
 			}
 		}
 
