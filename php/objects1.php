@@ -11,22 +11,22 @@
 			echo '<p style="color: ' . $color . '">' . $str . '</p>';
 		}
 
-		class monster {
+		class Living {
 			public $name;
 			public $hp;
 			public $maxhp;
 
-			function __construct( $name, $hp ) {
+			public function __construct( $name, $hp ) {
 				$this->name = $name;
 				$this->maxhp = $hp;
 				$this->hp = $hp;
 			}
 
-			function getRemainingHP() {
+			public function getRemainingHP() {
 				return $this->hp . '/' . $this->maxhp;
 			}
 
-			function doDamage( $amt ) {
+			public function doDamage( $amt ) {
 				$this->hp = ($amt < $this->hp) ? $this->hp - $amt : 0;
 				combatMessage( $amt . ' damage taken by ' . $this->name . ' - HP: ' . $this->getRemainingHP() );
 				if( $this->hp == 0 ) {
@@ -34,19 +34,32 @@
 				}
 			}
 
-			function death() {
+			protected function death() {
 				$this->hp = 0;
-				combatMessage( '-- ' . $this->name . ' has died. --', 'green' );
+				combatMessage( '-- ' . $this->name . ' has fallen unconscious. --', 'green' );
 			}
 
 		}
 
-		$ogre = new monster( 'Ogre General', 1000 );
-		$orc = new monster( 'Orc Grunt', 100 );
+		class Monster extends Living {
+			public function roar( $text ) {
+				if( $this->hp === 0 ) {
+					return $this->name . ' mutters something in its sleep.';
+				}
+				return $this->name . ' roars, "' . $text . '"';
+			}
+		}
+
+		$ogre = new Monster( 'Ogre General', 1000 );
+		$orc = new Monster( 'Orc Grunt', 100 );
+
+		echo '<p>' . $orc->roar( "Momma said knock you out!" ) . '</p>';
 
 		echo $ogre->name , ' - HP: ' , $ogre->getRemainingHP() . '<br>';
 
 		echo $ogre->doDamage(9999);
+
+		echo '<p>' . $ogre->roar( "You won't actually hear this but I'm mad!" ) . '</p>';
 	?>
 </body>
 </html>
