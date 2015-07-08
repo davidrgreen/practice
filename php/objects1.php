@@ -7,10 +7,6 @@
 <body>
 	<?php
 
-		function combatMessage( $str, $color='red' ) {
-			echo '<p style="color: ' . $color . '">' . $str . '</p>';
-		}
-
 		abstract class Living {
 			public $name;
 			public $hp;
@@ -28,13 +24,17 @@
 
 			public function doDamage( $amt ) {
 				$this->hp = ($amt < $this->hp) ? $this->hp - $amt : 0;
-				combatMessage( $amt . ' damage taken by ' . $this->name . ' - HP: ' . $this->getRemainingHP() );
+				$this->combatMessage( $amt . ' damage taken by ' . $this->name . ' - HP: ' . $this->getRemainingHP() );
 				if( $this->hp == 0 ) {
 					$this->death();
 				}
 			}
 
 			abstract protected function death();
+
+			protected function combatMessage( $str, $color='red' ) {
+				echo '<p style="color: ' . $color . '">' . $str . '</p>';
+			}
 
 		}
 
@@ -48,7 +48,7 @@
 
 			protected function death() {
 				$this->hp = 0;
-				combatMessage( '-- ' . $this->name . ' has fallen unconscious. --', 'green' );
+				$this->combatMessage( '-- ' . $this->name . ' has fallen unconscious. --', 'green' );
 			}
 		}
 
